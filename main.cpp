@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <sstream>
 #include "card.h"
 #include "card_list.h"
 // Do not include set in this file
@@ -26,16 +27,28 @@ int main(int argv, char **argc)
     return 1;
   }
 
+  CardBST alice, bob;
+
   // Read each file
   while (getline(cardFile1, line) && (line.length() > 0))
   {
+    istringstream iss(line);
+    Card c;
+    iss >> c;
+    alice.insert(c);
   }
   cardFile1.close();
 
   while (getline(cardFile2, line) && (line.length() > 0))
   {
+    istringstream iss(line);
+    Card c;
+    iss >> c;
+    bob.insert(c);
   }
   cardFile2.close();
+
+  playGame(alice, bob);
 
   return 0;
 }

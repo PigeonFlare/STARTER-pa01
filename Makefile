@@ -1,13 +1,19 @@
 CXX=g++ 
 CXXFLAGS = -g --std=c++20 -Wall
 
-all: game game_set
+all: game game_set main main_set
 
 game_set: card.o main_set.o
 	${CXX} ${CXXFLAGS} card.o main_set.o -o game_set
 
+main_set: card.o main_set.o
+	${CXX} ${CXXFLAGS} card.o main_set.o -o main_set
+
 game: card.o card_list.o main.o
 	${CXX} ${CXXFLAGS} card.o card_list.o main.o -o game
+
+main: card.o card_list.o main.o
+	${CXX} ${CXXFLAGS} card.o card_list.o main.o -o main
 
 tests: card.o card_list.o tests.o
 	${CXX} ${CXXFLAGS} card.o card_list.o tests.o -o tests
@@ -29,4 +35,4 @@ card.o: card.cpp card.h
 	${CXX} ${CXXFLAGS} card.cpp -c
 
 clean:
-	rm game_set game *.o
+	rm -f game_set game main_set main *.o
