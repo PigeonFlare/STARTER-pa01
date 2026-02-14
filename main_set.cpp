@@ -8,21 +8,6 @@
 
 using namespace std;
 
-static void printHands(const set<Card> &alice, const set<Card> &bob)
-{
-  cout << "\nAlice's cards:" << endl;
-  for (const Card &card : alice)
-  {
-    cout << card << endl;
-  }
-
-  cout << "\nBob's cards:" << endl;
-  for (const Card &card : bob)
-  {
-    cout << card << endl;
-  }
-}
-
 int main(int argv, char **argc)
 {
   if (argv < 3)
@@ -33,6 +18,7 @@ int main(int argv, char **argc)
 
   ifstream cardFile1(argc[1]);
   ifstream cardFile2(argc[2]);
+  string line;
 
   if (cardFile1.fail() || cardFile2.fail())
   {
@@ -40,66 +26,16 @@ int main(int argv, char **argc)
     return 1;
   }
 
-  set<Card> alice;
-  set<Card> bob;
-
   // Read each file
-  char suit;
-  string rank;
-  while (cardFile1 >> suit >> rank)
+  while (getline(cardFile1, line) && (line.length() > 0))
   {
-    alice.insert(Card(suit, rank));
   }
   cardFile1.close();
 
-  while (cardFile2 >> suit >> rank)
+  while (getline(cardFile2, line) && (line.length() > 0))
   {
-    bob.insert(Card(suit, rank));
   }
   cardFile2.close();
-
-  while (true)
-  {
-    bool aliceMatched = false;
-    for (auto it = alice.begin(); it != alice.end(); ++it)
-    {
-      const Card current = *it;
-      if (bob.find(current) != bob.end())
-      {
-        cout << "Alice picked matching card " << current << endl;
-        alice.erase(current);
-        bob.erase(current);
-        aliceMatched = true;
-        break;
-      }
-    }
-
-    if (!aliceMatched)
-    {
-      break;
-    }
-
-    bool bobMatched = false;
-    for (auto it = bob.rbegin(); it != bob.rend(); ++it)
-    {
-      const Card current = *it;
-      if (alice.find(current) != alice.end())
-      {
-        cout << "Bob picked matching card " << current << endl;
-        alice.erase(current);
-        bob.erase(current);
-        bobMatched = true;
-        break;
-      }
-    }
-
-    if (!bobMatched)
-    {
-      break;
-    }
-  }
-
-  printHands(alice, bob);
 
   return 0;
 }

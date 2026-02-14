@@ -29,4 +29,4 @@ card.o: card.cpp card.h
 	${CXX} ${CXXFLAGS} card.cpp -c
 
 clean:
-	rm -f game_set game tests *.o
+	rm game_set game *.o
